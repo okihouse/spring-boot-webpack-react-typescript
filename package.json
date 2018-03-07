@@ -1,0 +1,26 @@
+{
+  "name": "spring-boot-webpack",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "webpack --watch --env.development",
+    "dev": "webpack-dev-server --env.development"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.0",
+    "@types/react": "^16.0.34",
+    "@types/react-dom": "^16.0.3",
+    "awesome-typescript-loader": "^3.4.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "css-hot-loader": "^1.3.7",
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "jquery": "^3.3.1",
+    "node-sass": "^4.7.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "sass-loader": "^6.0.6",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  }
+}

@@ -1,0 +1,37 @@
+logging:
+  config: classpath:logback.xml
+
+server:
+  port: 3000
+  context-path: /
+  error:
+    whitelabel:
+      enabled: true
+
+spring:
+  devtools:
+    restart:
+      additional-paths: "src/main/resources/templates"
+      additional-exclude: "**/*.js,**/*.scss,**/*.css,**/*.tsx,**/*.map"
+
+handlebars:
+  charset: UTF-8
+  resolver:
+    method: true
+    field: true
+
+---
+
+spring:
+  profiles: local
+      
+handlebars:
+  cache: true
+
+---
+
+spring:
+  profiles: production
+      
+handlebars:
+  cache: false
