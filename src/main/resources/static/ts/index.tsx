@@ -18,7 +18,7 @@ class Index extends React.Component<IndexProps, IndexState> {
         return (
             <div className="App">
                 <header className="App-header">
-                    <div src="" className="App-logo" alt="logo" />
+                    <div className="App-logo"></div>
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
                 <p className="App-intro">
