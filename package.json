@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "webpack --watch --env.development",
-    "dev": "webpack-dev-server --env.development"
+    "start": "webpack-dev-server --env.development"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.0",
