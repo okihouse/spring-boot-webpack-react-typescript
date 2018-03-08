@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/okihouse/spring-boot-webpack-react-typescript.svg?branch=master)](https://travis-ci.org/okihouse/spring-boot-webpack-react-typescript)
+
 Demo
 =========
 
