@@ -23,6 +23,7 @@ Run
 step 1.
   mvn spring-boot:run
   
-step 2.
+step 2. 
+  (npm install on initial)
   npm start
 ```
