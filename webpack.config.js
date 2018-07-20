@@ -9,11 +9,11 @@ const webpack = require('webpack');
 const productCss = new ExtractTextPlugin('[name].min.css');
 const devCss = new ExtractTextPlugin('[name].css');
 
-module.exports = function(env) {
+module.exports = function(env, argv) {
     const plugins = [
     ];
 
-    if(env.production) {
+    if(argv.mode.production) {
         plugins.push(
             productCss,
             new CleanWebpackPlugin('./src/main/resources/dist'),
@@ -42,7 +42,7 @@ module.exports = function(env) {
             filename: '[name].bundle.js',
             path: path.join(__dirname, '/src/main/resources/dist')
         },
-        devtool: env.production ? 'source-map' : 'none',
+        devtool: argv.mode.production ? 'source-map' : 'none',
         devServer: {
             historyApiFallback: true,
             contentBase: path.join(__dirname, 'src'),
@@ -75,14 +75,14 @@ module.exports = function(env) {
                                     loader: 'css-loader',
                                     options: {
                                         url: false,
-                                        minimize: env.production,
-                                        sourceMap: env.production ? true : false
+                                        minimize: argv.mode.production,
+                                        sourceMap: argv.mode.production ? true : false
                                     }
                                 },
                                 {
                                     loader: 'sass-loader',
                                         options: {
-                                        sourceMap: env.production ? true : false
+                                        sourceMap: argv.mode.production ? true : false
                                     }
                                 }
                             ]
@@ -91,7 +91,7 @@ module.exports = function(env) {
             ]
         },
         resolve: {
-            extensions: [".ts", ".tsx", ".js", ".json", ".scss"]
+            extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".scss"]
         },
         plugins: plugins
     }
