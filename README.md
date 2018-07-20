@@ -11,8 +11,10 @@ https://youtu.be/hFdFXei-5m8
 
 Important
 =========
-This sample project is optimized for the webpack 3.10.0.
-(Not compatible with webpack 4)
+**Now, compatible with webpack 4**
+
+~~This sample project is optimized for the webpack 3.10.0.
+(Not compatible with webpack 4)~~
 
 Description
 =========
