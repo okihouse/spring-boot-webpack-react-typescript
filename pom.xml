@@ -136,7 +136,7 @@
                         <phase>generate-resources</phase>
 
                         <configuration>
-                            <arguments>--env.${profile}</arguments>
+                            <arguments>--mode=${profile}</arguments>
                         </configuration>
                     </execution>
                 </executions>
