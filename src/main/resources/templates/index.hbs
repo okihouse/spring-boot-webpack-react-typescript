@@ -3,6 +3,11 @@
 <body>
     <div id="container"></div>
     {{> shared/scripts}}
-    <script type="text/javascript" src="../../dist/index.bundle.js"></script>
+
+    {{#if isProduction}}
+        <script src="/dist/index.min.js"></script>
+    {{else}}
+        <script src="/dist/index.js"></script>
+    {{/if}}
 </body>
 </html>
