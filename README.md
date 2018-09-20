@@ -31,7 +31,7 @@ Run
 
 ```bash
 step 1.
-  mvn spring-boot:run
+  SPRING_PROFILES_ACTIVE=production|development mvn spring-boot:run -Dprofile=production|development
   
 step 2. 
   (npm install on initial)
