@@ -5,14 +5,18 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const webpack = require('webpack');
 
 module.exports = function(env, argv) {
     const isProduction = argv.mode == 'production';
 
-    const cssAssetName = isProduction ? '[name].min.css' : '[name].css';
+    const cssAssetName = isProduction ? '[name].min.css?v=[hash]' : '[name].css?v=[hash]';
     const plugins = [
-        new ExtractTextPlugin(cssAssetName)
+        new ExtractTextPlugin(cssAssetName),
+        new ManifestPlugin({
+            publicPath: '/dist/'
+        })
     ];
 
     if(isProduction) {
@@ -35,10 +39,10 @@ module.exports = function(env, argv) {
             ]
         },
         output: {
-            filename: isProduction ? '[name].min.js' : '[name].js',
+            filename: isProduction ? '[name].min.js?v=[hash]' : '[name].js?v=[hash]',
             path: path.join(__dirname, '/src/main/resources/dist')
         },
-        devtool: isProduction ? 'source-map' : 'none',
+        devtool: isProduction ? 'none' : 'source-map',
         devServer: {
             historyApiFallback: true,
             contentBase: path.join(__dirname, 'src'),
@@ -72,13 +76,13 @@ module.exports = function(env, argv) {
                                     options: {
                                         url: false,
                                         minimize: isProduction,
-                                        sourceMap: isProduction
+                                        sourceMap: !isProduction
                                     }
                                 },
                                 {
                                     loader: 'sass-loader',
                                         options: {
-                                        sourceMap: isProduction
+                                        sourceMap: !isProduction
                                     }
                                 }
                             ]
