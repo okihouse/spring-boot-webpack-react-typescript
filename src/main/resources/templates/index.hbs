@@ -4,10 +4,6 @@
     <div id="container"></div>
     {{> shared/scripts}}
 
-    {{#if isProduction}}
-        <script src="/dist/index.min.js"></script>
-    {{else}}
-        <script src="/dist/index.js"></script>
-    {{/if}}
+    <script src="{{{[index.js]}}}"></script>
 </body>
 </html>
