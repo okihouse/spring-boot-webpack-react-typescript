@@ -1,111 +1,102 @@
-/**
- * Created by okihouse16 on 2017. 12. 25..
- */
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const webpack = require('webpack');
+/* eslint-disable */
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-module.exports = function(env, argv) {
-    const isProduction = argv.mode == 'production';
+module.exports = (env, argv) => {
+    const production = argv.mode === "production";
 
-    const cssAssetName = isProduction ? '[name].min.css' : '[name].css';
-    const plugins = [
-        new ExtractTextPlugin(cssAssetName)
-    ];
-
-    if(isProduction) {
-        plugins.push(
-            new CleanWebpackPlugin('./src/main/resources/dist')
-        );
-    } else {
-        plugins.push(
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NamedModulesPlugin()
-        );
-    }
-
-    return {
-        mode: isProduction ? 'production' : 'development',
+    const config = {
+        mode: argv.mode,
         entry: {
-            index: './src/main/resources/static/ts/index.tsx',
-            style : [
-                './src/main/resources/static/style/index.scss',
+            index: [
+                "@babel/polyfill",
+                "./src/main/resources/scripts/Index.tsx"
             ]
         },
         output: {
-            filename: isProduction ? '[name].min.js' : '[name].js',
-            path: path.join(__dirname, '/src/main/resources/dist')
+            path: path.join(__dirname, "/src/main/resources/dist"),
+            filename: "[name].js?v=[hash]",
+            publicPath: "/dist"
         },
-        devtool: isProduction ? 'source-map' : 'none',
-        devServer: {
-            historyApiFallback: true,
-            contentBase: path.join(__dirname, 'src'),
-            publicPath: '/dist/',
-            compress: true,
-            port: 8000,
-            proxy: {
-                "**": "http://localhost:3000"
-            }
-        },
+        devtool: production ? "source-map" : "inline-source-map",
         module: {
             rules: [
                 {
                     test: /\.tsx?$/,
-                    loader: 'awesome-typescript-loader',
-                    options: {
-                        ignoreDiagnostics: [
-                            2686,
-                            2339,
-                            2304
-                        ],
-                    },
-                    exclude: /node_modules/
+                    use: ["awesome-typescript-loader"],
                 },
                 {
-                    test: /\.scss$/,
-                    use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-                            use: [
-                                {
-                                    loader: 'css-loader',
-                                    options: {
-                                        url: false,
-                                        minimize: isProduction,
-                                        sourceMap: isProduction
-                                    }
-                                },
-                                {
-                                    loader: 'sass-loader',
-                                        options: {
-                                        sourceMap: isProduction
-                                    }
-                                }
-                            ]
-                        }))
-                }
+                    test: /\.(sa|sc|c)ss$/,
+                    use: [
+                        production ? MiniCssExtractPlugin.loader : "style-loader",
+                        "css-loader",
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                sourceMap: true
+                            }
+                        }
+                    ]
+                },
             ]
         },
-        resolve: {
-            extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".scss"]
+        devServer: {
+            contentBase: path.join(__dirname, "src"),
+            compress: true,
+            publicPath: "/dist",
+            port: 8000,
+            historyApiFallback: true,
+            hot: true,
+            open: true,
+            proxy: {
+                "**": "http://localhost:3000"
+            }
         },
-        plugins: plugins,
+        resolve: {
+            extensions: [".ts", ".tsx", ".js", ".jsx", "scss"],
+        },
         optimization: {
-            minimizer: [new UglifyJsPlugin({
-                uglifyOptions: {
-                    compress: isProduction,
-                    mangle: true,
-                    keep_fnames: isProduction,
-                    output: {
-                        beautify: !isProduction,
-                        comments: false
+            mangleWasmImports: true,
+            minimizer: [
+                new TerserPlugin({
+                    sourceMap: true
+                }),
+            ],
+            splitChunks: {
+                cacheGroups: {
+                    common: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: "vendors",
+                        chunks: "all",
+                        enforce: true
                     }
                 }
-            })]
+            }
         },
-        externals : {
-            'react': 'React',
-            'react-dom': 'ReactDOM'
-        }
+        plugins: [
+            new webpack.ProgressPlugin(),
+            new HtmlWebpackPlugin({
+                filename: "index.hbs",
+                template: "./src/main/resources/templates/index.hbs",
+                minify: true
+            }),
+            new MiniCssExtractPlugin({
+                filename: production ? "[name].[hash].css" : "[name].css",
+                chunkFilename: production ? "[id].[hash].css" : "[id].css",
+                ignoreOrder: false
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    };
+
+    if (production) {
+        config.plugins.push(new CleanWebpackPlugin());
     }
+
+    return config;
 };

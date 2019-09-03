@@ -3,10 +3,11 @@ logging:
 
 server:
   port: 3000
-  context-path: /
   error:
     whitelabel:
       enabled: true
+  servlet:
+    context-path: /
 
 spring:
   devtools:
@@ -16,6 +17,7 @@ spring:
 
 handlebars:
   charset: UTF-8
+  prefix: classpath:dist/
   resolver:
     method: true
     field: true
@@ -28,6 +30,14 @@ spring:
 handlebars:
   cache: true
 
+---
+
+spring:
+  profiles: default
+  
+handlebars:
+  cache: false
+  
 ---
 
 spring:
