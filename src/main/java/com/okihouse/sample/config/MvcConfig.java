@@ -1,22 +1,17 @@
-package com.okihouse.config;
+package com.okihouse.sample.config;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Created by okihouse16 on 2018. 1. 18..
- */
 @Configuration
 @EnableAutoConfiguration
-public class MvcConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-            .addResourceHandler("/**")
-            .addResourceLocations("classpath:/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/");
     }
-    
+
 }

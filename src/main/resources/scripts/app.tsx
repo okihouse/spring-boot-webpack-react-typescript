@@ -1,14 +1,17 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import { hot } from "react-hot-loader/root";
 
-interface IndexProps {
+require('../styles/Index.scss');
+
+interface AppProps {
 }
 
-interface IndexState {
+interface AppState {
 }
 
-class Index extends React.Component<IndexProps, IndexState> {
-    constructor(props: IndexProps) {
+class App extends React.Component<AppProps, AppState> {
+    constructor(props: AppProps) {
         super(props);
         this.state = {
         };
@@ -29,7 +32,4 @@ class Index extends React.Component<IndexProps, IndexState> {
     }
 }
 
-ReactDOM.render(
-    <Index />,
-    document.getElementById('container')
-);
+export default hot(App);
