@@ -1,14 +1,6 @@
 
 [![Build Status](https://travis-ci.org/okihouse/spring-boot-webpack-react-typescript.svg?branch=master)](https://travis-ci.org/okihouse/spring-boot-webpack-react-typescript)
 
-Demo
-=========
-
-https://youtu.be/hFdFXei-5m8
-
-[![Demo](http://i3.ytimg.com/vi/hFdFXei-5m8/maxresdefault.jpg)](https://youtu.be/hFdFXei-5m8 "Demo")
-
-
 Important
 =========
 **Now, Compatible with webpack 4**
